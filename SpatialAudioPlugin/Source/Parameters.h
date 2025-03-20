@@ -32,6 +32,7 @@ public:
     void reset() noexcept;
     void smoothen() noexcept;
 
+
     float gain = 0.0f;
     float elevation = 0.0f;
     float azimuth = 1.0f;

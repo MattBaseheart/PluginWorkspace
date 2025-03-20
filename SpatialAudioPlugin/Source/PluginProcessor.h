@@ -54,8 +54,9 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void loadIR(const juce::String& filename);
+
     juce::AudioProcessorValueTreeState apvts{ *this, nullptr, "Parameters", Parameters::createParameterLayout() };
-    juce::File result;
     
 private:
     // Here, the params between {} are passed onto the constructor
