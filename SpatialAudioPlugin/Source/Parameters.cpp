@@ -50,7 +50,7 @@ void Parameters::update() noexcept
     // Gain uses a linear smoother
     gainSmoother.setTargetValue(juce::Decibels::decibelsToGain(gainParam->get()));
     azimuthSmoother.setTargetValue(azimuthParam->get());
-    elevationSmoother.setTargetValue(azimuthParam->get());
+    elevationSmoother.setTargetValue(elevationParam->get());
 }
 
 void Parameters::prepareToPlay(double sampleRate) noexcept 

@@ -67,6 +67,8 @@ private:
     Parameters params;
     juce::dsp::Convolution conv;
     juce::dsp::ProcessSpec spec;
+
+    int elevationValues[17] = {-81, -75, -60, -54, -45, -30, -25, -15, 0, 15,  25,  30,  45,  54,  60,  75,  90};
     
     //DelayLine is a class template, needs additional properties
     juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;

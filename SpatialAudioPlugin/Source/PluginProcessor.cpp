@@ -13,6 +13,7 @@
 // Here, the : followed by an AudioProcessor constructor call creates that class first. params(apvts) is also in the initializer list
 SimpleDelayPluginAudioProcessor::SimpleDelayPluginAudioProcessor() : AudioProcessor(BusesProperties().withInput("Input", juce::AudioChannelSet::stereo(), true).withOutput("Output", juce::AudioChannelSet::stereo(), true)), params(apvts)
 {
+    // 
   loadIR("C:/Users/mbase/Downloads/D2_HRIR_WAV/D2_HRIR_WAV/48K_24bit/azi_99,0_ele_35,3.wav");
 }
 
@@ -21,6 +22,35 @@ SimpleDelayPluginAudioProcessor::~SimpleDelayPluginAudioProcessor()
 }
 
 //==============================================================================
+
+
+// juce::AudioBuffer SimpleDelayPluginAudioProcessor::loadDirectoryIR(
+//    string directoryName) {
+//  /*
+//    - Find all files in the dir
+//    - currSample = 0
+//    - startIndexes[]
+//    - AudioBuffer
+//    - For each x
+//        - startIndex[x] = currSample
+//        - currSample += file x.length
+//  */
+//}
+
+//void SimpleDelayPluginAudioProcessor : UpdateIR(juce::AudioBuffer) 
+//{
+//  /*
+//    Take two floats (one for each param)
+//    Map them to an index in the datamap of files
+//    Always use floor, not round
+//
+//
+//
+//  */
+//}
+
+
+//UpdateIR(startIndex[5], startIndex[6])
 
 void SimpleDelayPluginAudioProcessor::loadIR(const juce::String& filename)
 {
@@ -101,18 +131,19 @@ void SimpleDelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samp
 
     DBG("==========================================================================================");
     DBG(sampleRate);
+    DBG(params.azimuth);
+    DBG(params.elevation);
+    DBG(params.gain);
     DBG("==========================================================================================");
 
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
 
+    DBG("A");
     // Set up convolution reverb:
     conv.reset();
     conv.prepare(spec);
-
-    
-
 }
 
 void SimpleDelayPluginAudioProcessor::releaseResources()
@@ -152,7 +183,31 @@ void SimpleDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& bu
 
     params.update();
 
-    
+    DBG("-----------------------------------------");
+    // Find the azimuth[] and elevation[] values closest to params.azimuth and
+    // params.elevation
+    int closestElevation = 0;
+    float smallestElevationDiff = 180.0f;
+    DBG("Elevation: " + juce::String(params.elevation));
+    DBG("Azimuth: " + juce::String(params.azimuth));
+    for (int i = 0; i < 17; i++) {
+      float elDiff = std::abs((params.elevation - 90) - elevationValues[i]);
+      if (elDiff < smallestElevationDiff) {
+        DBG("Found a closer elevation: " + juce::String(elevationValues[i]) +
+            " with diff: " + juce::String(elDiff));
+        smallestElevationDiff = elDiff;
+        closestElevation = elevationValues[i];
+      }
+    }
+    int closestAzimuth = (int)params.azimuth;
+
+    DBG("C:/Users/mbase/Downloads/D2_HRIR_WAV/D2_HRIR_WAV/48K_24bit/azi_" +
+        juce::String(closestAzimuth) + ",0_ele_" +
+        juce::String(closestElevation) + ",0.wav");
+    // Load the IR file that corresponds to the closest azimuth and elevation
+    loadIR("C:/Users/mbase/Downloads/D2_HRIR_WAV/D2_HRIR_WAV/48K_24bit/azi_" +
+           juce::String(closestAzimuth) + ",0_ele_" +
+           juce::String(closestElevation) + ",0.wav");
 
     // Turn JUCE buffer into an AudioBlock
     juce::dsp::AudioBlock<float> block{ buffer };
