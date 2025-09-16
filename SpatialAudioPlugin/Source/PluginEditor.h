@@ -16,11 +16,11 @@
 //==============================================================================
 /**
 */
-class SimpleDelayPluginAudioProcessorEditor  : public juce::AudioProcessorEditor
+class SpatialAudioPluginAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    SimpleDelayPluginAudioProcessorEditor (SimpleDelayPluginAudioProcessor&);
-    ~SimpleDelayPluginAudioProcessorEditor() override;
+    SpatialAudioPluginAudioProcessorEditor (SpatialAudioPluginAudioProcessor&);
+    ~SpatialAudioPluginAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -29,12 +29,12 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    SimpleDelayPluginAudioProcessor& audioProcessor;
+    SpatialAudioPluginAudioProcessor& audioProcessor;
     juce::Value valueToControl;
     
     RotaryKnob gainKnob{ "Gain", audioProcessor.apvts, gainParamID };
     RotaryKnob azimuthKnob{ "Azimuth", audioProcessor.apvts, azimuthParamID };
     RotaryKnob elevationKnob{ "Elevation", audioProcessor.apvts, elevationParamID };
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleDelayPluginAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpatialAudioPluginAudioProcessorEditor)
 };

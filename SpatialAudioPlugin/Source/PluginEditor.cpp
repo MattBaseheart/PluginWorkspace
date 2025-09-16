@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SimpleDelayPluginAudioProcessorEditor::SimpleDelayPluginAudioProcessorEditor (SimpleDelayPluginAudioProcessor& p)
+SpatialAudioPluginAudioProcessorEditor::SpatialAudioPluginAudioProcessorEditor (SpatialAudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -21,12 +21,12 @@ SimpleDelayPluginAudioProcessorEditor::SimpleDelayPluginAudioProcessorEditor (Si
     setSize (500, 330);
 }
 
-SimpleDelayPluginAudioProcessorEditor::~SimpleDelayPluginAudioProcessorEditor()
+SpatialAudioPluginAudioProcessorEditor::~SpatialAudioPluginAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void SimpleDelayPluginAudioProcessorEditor::paint (juce::Graphics& g)
+void SpatialAudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -37,7 +37,7 @@ void SimpleDelayPluginAudioProcessorEditor::paint (juce::Graphics& g)
     juce::Value valueToControl;
 }
 
-void SimpleDelayPluginAudioProcessorEditor::resized()
+void SpatialAudioPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..

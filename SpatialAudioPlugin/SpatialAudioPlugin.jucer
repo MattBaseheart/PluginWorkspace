@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="uWe1op" name="SimpleDelayPlugin" projectType="audioplug"
-              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
-  <MAINGROUP id="MTc3lD" name="SimpleDelayPlugin">
+<JUCERPROJECT id="uWe1op" name="SpatialAudioPlugin" projectType="audioplug"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              version="1.1.0" pluginName="SpatialAudioPlugin" maxBinaryFileSize="20971520"
+              binaryDataNamespace="HRIR_48k_24bit">
+  <MAINGROUP id="MTc3lD" name="SpatialAudioPlugin">
     <GROUP id="{72780EA7-EF06-0CC4-634C-D438A7B5914E}" name="Source">
       <FILE id="IvJ6Hh" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
       <FILE id="THBavi" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
@@ -16,6 +18,10 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="FMME4q" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="J5OnSV" name="HRIR_48K_24bit.cpp" compile="1" resource="1"
+          file="Source/HRIR_48K_24bit.cpp"/>
+    <FILE id="thdDRg" name="HRIR_48K_24bit.h" compile="0" resource="1"
+          file="Source/HRIR_48K_24bit.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -37,8 +43,8 @@
   <EXPORTFORMATS>
     <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="SimpleDelayPlugin"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="SimpleDelayPlugin"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="SpatialAudioPlugin"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="SpatialAudioPlugin"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>

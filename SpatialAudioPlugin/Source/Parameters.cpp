@@ -39,41 +39,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterL
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(gainParamID, "Output Gain", juce::NormalisableRange<float>{-12.0f, 12.0f}, 0.0f));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(elevationParamID, "Elevation", juce::NormalisableRange<float>{minElevation, maxElevation}, 90.0f, juce::AudioParameterFloatAttributes().withStringFromValueFunction(stringFromDegrees)));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(azimuthParamID, "Azimuth", juce::NormalisableRange<float>{minAzimuth, maxAzimuth}, 180.0f , juce::AudioParameterFloatAttributes().withStringFromValueFunction(stringFromDegrees)));
-
+    layout.add(std::make_unique<juce::AudioParameterInt>(elevationParamID, "Elevation", minElevation, maxElevation, 90, juce::AudioParameterIntAttributes().withStringFromValueFunction(stringFromDegrees)));
+    layout.add(std::make_unique<juce::AudioParameterInt>(azimuthParamID, "Azimuth", minAzimuth, maxAzimuth, 180 , juce::AudioParameterIntAttributes().withStringFromValueFunction(stringFromDegrees)));
     return layout;
-}
-
-void Parameters::update() noexcept 
-{
-    // Gain uses a linear smoother
-    gainSmoother.setTargetValue(juce::Decibels::decibelsToGain(gainParam->get()));
-    azimuthSmoother.setTargetValue(azimuthParam->get());
-    elevationSmoother.setTargetValue(elevationParam->get());
-}
-
-void Parameters::prepareToPlay(double sampleRate) noexcept 
-{
-    double duration = 0.02;
-    gainSmoother.reset(sampleRate, duration);
-    azimuthSmoother.reset(sampleRate, duration);
-    elevationSmoother.reset(sampleRate, duration);
-}
-
-void Parameters::reset() noexcept
-{
-    gain = 0.0f;
-    elevation = 0.0f;
-    azimuth = 0.0f;
-    gainSmoother.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(gainParam->get()));
-    azimuthSmoother.setCurrentAndTargetValue(azimuthParam->get());
-    elevationSmoother.setCurrentAndTargetValue(elevationParam->get());
-}
-
-void Parameters::smoothen() noexcept 
-{
-    gain = gainSmoother.getNextValue();
-    azimuth = azimuthSmoother.getNextValue();
-    elevation = elevationSmoother.getNextValue();
 }

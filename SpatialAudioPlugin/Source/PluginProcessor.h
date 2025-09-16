@@ -10,16 +10,17 @@
 
 #include <JuceHeader.h>
 #include "Parameters.h"
+#include <map>
 
 //==============================================================================
 /**
 */
-class SimpleDelayPluginAudioProcessor  : public juce::AudioProcessor
+class SpatialAudioPluginAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    SimpleDelayPluginAudioProcessor();
-    ~SimpleDelayPluginAudioProcessor() override;
+    SpatialAudioPluginAudioProcessor();
+    ~SpatialAudioPluginAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -54,7 +55,8 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    void loadIR(const juce::String& filename);
+    void loadIR(int azi, int ele);
+    void initializeIRMap();
 
     juce::AudioProcessorValueTreeState apvts{ *this, nullptr, "Parameters", Parameters::createParameterLayout() };
     
@@ -68,12 +70,23 @@ private:
     juce::dsp::Convolution conv;
     juce::dsp::ProcessSpec spec;
 
+    struct HRIR_48K_24bit_Entry {
+      int size;
+      const char* ir;
+    };
+
+    // Ordered 2D map: azimuth -> elevation -> IR value
+    std::map<int, std::map<int, HRIR_48K_24bit_Entry>> irMap;
+
     int elevationValues[17] = {-81, -75, -60, -54, -45, -30, -25, -15, 0, 15,  25,  30,  45,  54,  60,  75,  90};
     
     //DelayLine is a class template, needs additional properties
     juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;
 
+    // Initial values that are impossible, so the first run always triggers a load
+    int lastAzi = -500;
+    int lastEle = -500;
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleDelayPluginAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpatialAudioPluginAudioProcessor)
 };
