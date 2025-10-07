@@ -32,15 +32,17 @@ void SpatialAudioPluginAudioProcessor::initializeIRMap() {
       if (elevationValues[i] >= 0) {
         juce::String nameStr = "azi_" + juce::String(j) + "_0_ele_" + juce::String(elevationValues[i]) + "_0_wav";
         name = nameStr.toRawUTF8();
+        DBG("[" + juce::String(j) + "," + juce::String(elevationValues[i]) + "] = "+ name);
         const char* getNamedResource =
             (const char*)HRIR_48k_24bit::getNamedResource(name, sz);
-        irMap[j][i] = {sz, getNamedResource};
+        irMap[j][elevationValues[i]] = {sz, getNamedResource};
       } else {
         juce::String nameStr = "azi_" + juce::String(j) + "_0_ele_neg" + juce::String(std::abs(elevationValues[i])) + "_0_wav";
         name = nameStr.toRawUTF8();
+        DBG("[" + juce::String(j) + "," + juce::String(elevationValues[i]) + "] = " + name);
         const char* getNamedResource =
             (const char*)HRIR_48k_24bit::getNamedResource(name, sz);
-        irMap[j][i] = {sz, getNamedResource};
+        irMap[j][elevationValues[i]] = {sz, getNamedResource};
       }
     }
   }
@@ -64,13 +66,20 @@ void SpatialAudioPluginAudioProcessor::loadIR(int azi, int ele) {
   }
   
   // Load as binary data
-  conv.loadImpulseResponse(irMap[azi][closestElevation].ir, 
+  conv1.loadImpulseResponse(irMap[azi][closestElevation].ir, 
                            irMap[azi][closestElevation].size,
                            juce::dsp::Convolution::Stereo::yes,
                            juce::dsp::Convolution::Trim::yes, 0,
                            juce::dsp::Convolution::Normalise::yes);
+  conv2.loadImpulseResponse(irMap[azi][closestElevation].ir, 
+                           irMap[azi][closestElevation].size,
+                           juce::dsp::Convolution::Stereo::yes, 
+                           juce::dsp::Convolution::Trim::yes, 0,
+                           juce::dsp::Convolution::Normalise::yes);
+
   lastAzi = azi;
   lastEle = closestElevation;
+  convWeight = 0.0f;  // Reset weight to start transition
 }
 
 const juce::String SpatialAudioPluginAudioProcessor::getName() const
@@ -148,8 +157,11 @@ void SpatialAudioPluginAudioProcessor::prepareToPlay (double sampleRate, int sam
     spec.numChannels = getTotalNumOutputChannels();
 
     // Set up convolution reverb:
-    conv.reset();
-    conv.prepare(spec);
+    conv1.reset();
+    conv1.prepare(spec);
+
+    conv2.reset();
+    conv2.prepare(spec);
 }
 
 void SpatialAudioPluginAudioProcessor::releaseResources()
@@ -184,8 +196,23 @@ void SpatialAudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
     // Turn JUCE buffer into an AudioBlock
     juce::dsp::AudioBlock<float> block{ buffer };
 
+    juce::AudioBuffer<float> tempBuffer1 = buffer;
+    juce::dsp::AudioBlock<float> tempBlock1{tempBuffer1};
+    juce::AudioBuffer<float> tempBuffer2 = buffer;
+    juce::dsp::AudioBlock<float> tempBlock2{tempBuffer2};
+
     //Pass the new AudioBlock to the conv.process call
-    conv.process(juce::dsp::ProcessContextReplacing<float>(block));
+    conv1.process(juce::dsp::ProcessContextReplacing<float>(tempBlock1));
+    conv2.process(juce::dsp::ProcessContextReplacing<float>(tempBlock2));
+
+    for (int sample = 0; sample< buffer.getNumSamples(); sample++) {
+        buffer.setSample(0, sample, convWeight * tempBuffer1.getSample(0, sample) + (1.0-convWeight) * tempBuffer2.getSample(0, sample));
+        buffer.setSample(1, sample, convWeight * tempBuffer1.getSample(1, sample) + (1.0-convWeight) * tempBuffer2.getSample(1, sample));
+        convWeight += convTransitionSpeed;
+        if (convWeight > 1.0f) {
+          convWeight = 1.0f;
+        }
+    }
 
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
@@ -195,6 +222,7 @@ void SpatialAudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
 
     for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
         const auto gain = smoother.getNextValue();
+
         channelDataL[sample] = channelDataL[sample] * gain;
         channelDataR[sample] = channelDataR[sample] * gain;
     }

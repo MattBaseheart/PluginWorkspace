@@ -67,8 +67,11 @@ private:
     // createParameterLayout() - provide a helper function that will generate a full list of parameters
     
     Parameters params;
-    juce::dsp::Convolution conv;
+    juce::dsp::Convolution conv1;
+    juce::dsp::Convolution conv2;
     juce::dsp::ProcessSpec spec;
+    float convWeight = 1.0f;  // Weighting factor for the convolution output (0.0 signifying conv1 used, 1.0 signifying conv2 used)
+    float convTransitionSpeed = 0.1f; // Speed of transition between conv1 and conv2
 
     struct HRIR_48K_24bit_Entry {
       int size;
