@@ -55,7 +55,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    void loadIR(int azi, int ele);
+    void loadIR(int azi, int ele, int numSamples);
     void initializeIRMap();
 
     juce::AudioProcessorValueTreeState apvts{ *this, nullptr, "Parameters", Parameters::createParameterLayout() };
@@ -68,10 +68,18 @@ private:
     
     Parameters params;
     juce::dsp::Convolution conv1;
+    juce::AudioBuffer<float> convBuffer1; 
     juce::dsp::Convolution conv2;
+    juce::AudioBuffer<float> convBuffer2; 
     juce::dsp::ProcessSpec spec;
+
+    bool convolutionToggle = false;  // Toggle to switch between conv1 and conv2
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> convolutionMix;
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> convolutionDebounce; //Set to 0, counts to 1 when parameter changes, only allow IR load when at 1
+
     float convWeight = 1.0f;  // Weighting factor for the convolution output (0.0 signifying conv1 used, 1.0 signifying conv2 used)
     float convTransitionSpeed = 0.1f; // Speed of transition between conv1 and conv2
+    float timeSinceLastIRLoad = 0.0f; // Time since last IR load, used to throttle IR loading
 
     struct HRIR_48K_24bit_Entry {
       int size;

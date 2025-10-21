@@ -44,5 +44,4 @@ void SpatialAudioPluginAudioProcessorEditor::resized()
     elevationKnob.setTopLeftPosition(20, 10);
     azimuthKnob.setTopLeftPosition(elevationKnob.getRight() + 20, 10);
     gainKnob.setTopLeftPosition(azimuthKnob.getRight() + 20, 10);
-    
 }
