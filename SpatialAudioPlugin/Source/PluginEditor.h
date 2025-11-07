@@ -31,6 +31,8 @@ private:
     // access the processor object that created it.
     SpatialAudioPluginAudioProcessor& audioProcessor;
     juce::Value valueToControl;
+
+    juce::GroupComponent spatialGroup, motionGroup, gainGroup;
     
     RotaryKnob gainKnob{ "Gain", audioProcessor.apvts, gainParamID };
     RotaryKnob azimuthKnob{ "Azimuth", audioProcessor.apvts, azimuthParamID };

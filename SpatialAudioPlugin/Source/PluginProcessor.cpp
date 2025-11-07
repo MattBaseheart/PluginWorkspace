@@ -66,7 +66,8 @@ void SpatialAudioPluginAudioProcessor::loadIR(int azi, int ele, int numSamples) 
     return;
   } 
 
-  if (convolutionDebounce.skip(numSamples) == 1.0f) {
+  // Throttle parameter changes to avoid excessive IR loading
+   if (convolutionDebounce.skip(numSamples) == 0.1f) {
     // When convolution toggle is false, use conv1 - else use conv2
     auto& convToLoadInto = convolutionToggle ? conv1 : conv2;
 
@@ -83,7 +84,7 @@ void SpatialAudioPluginAudioProcessor::loadIR(int azi, int ele, int numSamples) 
     convolutionMix.setTargetValue(convolutionToggle ? 1.0f : 0.0f);
 
     convolutionDebounce.setCurrentAndTargetValue(0.0f);
-  }
+   }
 }
 
 const juce::String SpatialAudioPluginAudioProcessor::getName() const

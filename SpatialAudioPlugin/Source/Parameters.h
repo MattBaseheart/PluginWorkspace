@@ -30,7 +30,7 @@ public:
     static constexpr int minElevation = 0;
     static constexpr int maxElevation = 180;
     static constexpr int minAzimuth = 0;
-    static constexpr int maxAzimuth = 360;
+    static constexpr int maxAzimuth = 359;
 
     juce::AudioParameterFloat* gainParam;
     juce::LinearSmoothedValue<float> gainSmoother;
