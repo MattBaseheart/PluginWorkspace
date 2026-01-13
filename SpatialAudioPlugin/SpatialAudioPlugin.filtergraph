@@ -78,7 +78,7 @@
           uiLastY_Normal="365" uiopen_Normal="1">
     <PLUGIN name="Wave Observer" format="VST3" category="Fx|Analyzer" manufacturer="Press Play"
             version="1.7.0" file="C:\Program Files\Common Files\VST3\WaveObserver.vst3\Contents\x86_64-win\WaveObserver.vst3"
-            uniqueId="9c2eefb7" isInstrument="0" fileTime="18f227d7b40" infoUpdateTime="19a0dd58565"
+            uniqueId="9c2eefb7" isInstrument="0" fileTime="18f227d7b40" infoUpdateTime="19bb9016132"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="31175806"/>
     <STATE>352.VMjLgbU....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9DSMx3RRjUCVtUDagQWUFElKXEVVzk0UYIGNFI1Z3TUX0EkUYUVTVMFdEYzXugCagszPt3hKt3hKt3hKtnFYVg0azDCdq3BYWkUMHIVc3kmatU0UYszJCQSZ1fjSoYCVNoVLwDlZUYjKq4jLXc1cVk0RqLzMt3hKt3hKt3RbNcjV0MlLWIWUwj0ZzXTVCUFbisVRxH1a3vVXNMDTtbjKlMmLEw1XqkULggGLwb0b3XTVqgSQYASRWgkdqESXzM2MOc0SpMETsEEaZIjKt3hKtvyKIMzasA2atUlaz4COIUDYoQ2Pu4Fcx8FarUlb9.iK77RREQVZzMzatQmbuwFakImO77hUSQ0LPwVcmklaSQWXzUlO..</STATE>
@@ -92,13 +92,13 @@
     </LAYOUT>
   </FILTER>
   <FILTER uid="9" x="0.6413145539906103" y="0.5122699386503068" useARA="0"
-          uiLastX_Normal="485" uiLastY_Normal="287" uiopen_Normal="0">
+          uiLastX_Normal="387" uiLastY_Normal="308" uiopen_Normal="0">
     <PLUGIN name="SpatialAudioPlugin" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.1.0" file="C:\Users\mbase\workspace\PluginDev\workspace\SpatialAudioPlugin\Builds\VisualStudio2022\x64\Debug\VST3\SpatialAudioPlugin.vst3\Contents\x86_64-win\SpatialAudioPlugin.vst3"
-            uniqueId="2abd6e6" isInstrument="0" fileTime="19a08b06774" infoUpdateTime="19a0dd58565"
+            uniqueId="2abd6e6" isInstrument="0" fileTime="19bb8ff70ca" infoUpdateTime="19bb9016132"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="e95ae7b3"/>
-    <STATE>443.VMjLgHa....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9HCM33hUMoFSmwzRt3hKt7zJlcUXxEDZisVRxH1a3vVX3fjTLQmKogjYTwVXogiQY8FMwjENHIUUTkEUKMCR38TNtHzSPUDahcFLVkkdUwlX4QyPOAUQpQUPvPDRuEkUOgFQrQ1avX0X5cFaHYFVWgkbUcUV3fDZLICTosjcHg2R4X2PTETRUAUSAIkVpASZHs1cVkULEYzXugCagglKnM1Y2Y0XqASZHQiKosjcHg2R4X2PTETRUAUSAIkVpASZH0VQVoEcIIDRwTjQgASUV8DZDMDSzgTdMcmZS4DMLMUSzPTdLYmYo0DZ2f1S2biPTcVRWg0bUYzXqkjLhkiKt3hKt3hKt3hKt3haTU0PUQDU3sFaicVTWkEQEYzXmEDTtDDRTQlcEEiX4EDTtDDSt3xXt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQ77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
+    <STATE>443.VMjLgHa....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9HCM33hUMoFSmwzRt3hKt7zJlcUXxEDZisVRxH1a3vVX3fjTLQmKogjYTwVXogiQY8FMwjENHIUUTkEUKMCR38TNtHzSPUDahcFLVkkdUwlX4QyPOAUQpQUPvPDRuEkUOgFQrQ1avX0X5cFaHYFVWgkbUcUV3fDZLICTosjcHg2R4X2PTETRUAUSAIkVpASZHs1cVkULEYzXugCagglKnM1Y2Y0XqASZHICRosjcHg2R4X2PTETRUAUSAIkVpASZH0VQVoEcIIDRwTjQgASUV8DZDMDSzgTdMcmZS4DMLMUSzPTdLYmYo0DZ2f1S2biPTcVRWg0bUYzXqkjLhkiKt3hKt3hKt3hKt3haTU0PUQDU3sFaicVTWkEQEYzXmEDTtDDRTQlcEEiX4EDTtDDSt3xXt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQ77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
     <LAYOUT>
       <INPUTS>
         <BUS index="0" layout="L R"/>
@@ -108,11 +108,11 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="15" x="0.5032863849765258" y="0.4447852760736196" useARA="0"
+  <FILTER uid="15" x="0.2234741784037559" y="0.4739263803680981" useARA="0"
           uiLastX_Normal="29" uiLastY_Normal="293" uiopen_Normal="0">
     <PLUGIN name="EQ" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.0.0" file="C:\Users\mbase\workspace\PluginDev\workspace\EQPlugin\EQ\Builds\VisualStudio2022\x64\Debug\VST3\EQ.vst3\Contents\x86_64-win\EQ.vst3"
-            uniqueId="ff98dc2a" isInstrument="0" fileTime="19a0dd00ea4" infoUpdateTime="19a0dd58566"
+            uniqueId="ff98dc2a" isInstrument="0" fileTime="19a606ee3f1" infoUpdateTime="19bb9016133"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="e9594422"/>
     <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
@@ -126,10 +126,10 @@
     </LAYOUT>
   </FILTER>
   <CONNECTION srcFilter="2" srcChannel="4096" dstFilter="6" dstChannel="4096"/>
-  <CONNECTION srcFilter="6" srcChannel="0" dstFilter="15" dstChannel="0"/>
-  <CONNECTION srcFilter="6" srcChannel="1" dstFilter="15" dstChannel="1"/>
-  <CONNECTION srcFilter="15" srcChannel="0" dstFilter="3" dstChannel="0"/>
-  <CONNECTION srcFilter="15" srcChannel="1" dstFilter="3" dstChannel="1"/>
-  <CONNECTION srcFilter="15" srcChannel="0" dstFilter="7" dstChannel="0"/>
-  <CONNECTION srcFilter="15" srcChannel="1" dstFilter="7" dstChannel="1"/>
+  <CONNECTION srcFilter="6" srcChannel="0" dstFilter="9" dstChannel="0"/>
+  <CONNECTION srcFilter="6" srcChannel="1" dstFilter="9" dstChannel="1"/>
+  <CONNECTION srcFilter="9" srcChannel="0" dstFilter="3" dstChannel="0"/>
+  <CONNECTION srcFilter="9" srcChannel="1" dstFilter="3" dstChannel="1"/>
+  <CONNECTION srcFilter="9" srcChannel="0" dstFilter="7" dstChannel="0"/>
+  <CONNECTION srcFilter="9" srcChannel="1" dstFilter="7" dstChannel="1"/>
 </FILTERGRAPH>
