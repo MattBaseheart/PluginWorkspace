@@ -1,75 +1,22 @@
-# 🐺 WolfSound's Audio Plugin Template
+# Spatial Audio Plugin
 
-![Cmake workflow success badge](https://github.com/JanWilczek/audio-plugin-template/actions/workflows/cmake.yml/badge.svg)
+A JUCE-based binaural spatializer. It renders the input as a single point source and positions it in 3D using measured head-related impulse responses (HRIRs), with azimuth, elevation, and output gain exposed as host parameters.
 
-Want to create an audio plugin (e.g., a VST3 plugin) with C++ but don't know how to go about?
+## Building
 
-Heard about the [JUCE C++ framework](https://github.com/juce-framework/JUCE) but not sure how to start a JUCE project?
+This project is built with the Projucer, not CMake.
 
-Want to use CMake with JUCE but don't know how?
+1. Open [SpatialAudioPlugin.jucer](SpatialAudioPlugin.jucer) in the [Projucer](https://juce.com/discover/projucer) and resave it to regenerate the exporter for your platform, or open the checked-in solution directly at [Builds/VisualStudio2022/SpatialAudioPlugin.sln](Builds/VisualStudio2022/SpatialAudioPlugin.sln).
+2. Build the Standalone and/or VST3 targets from Visual Studio 2022.
 
-Want to be able to easily integrate third-party C++ libraries to your project?
+The project expects a local JUCE checkout; if the module paths in the `.jucer` file or the generated Visual Studio projects don't match your JUCE install location, resave the project from the Projucer to regenerate them.
 
-Want to unit test your audio plugin?
+## HRIR dataset
 
-Want to ensure maximum safety of your software?
+[HRIR_48k_24bit/](HRIR_48k_24bit) contains 9,201 WAV files (48 kHz, 24-bit, stereo) covering 360 azimuths and up to 17 elevations per azimuth, used to render the binaural output. The files carry no embedded metadata (checked: only `fmt `/`data` RIFF chunks, no `LIST`/`INFO` text), so their origin isn't recorded anywhere in this repository.
 
-And all this with a click of a button?
+**TODO before publishing:** document where this dataset came from (e.g., which HRTF measurement database or recording session), its license, and any required attribution. Do not distribute built binaries or the raw WAV files until this is resolved.
 
-Well, this template allows you to immediately start your JUCE C++ framework audio plugin project with a CMake-based project structure. It involves
+## License
 
-* clear repo structure
-* C++ 23 standard
-* effortless handling of third-party dependencies with the CPM package manager; use the C++ libraries you want together with JUCE
-* highest warning level and "treat warnings as errors"
-* ready-to-go unit test project with GoogleTest
-
-Additionally
-
-* continuous integration made easy with Github actions: build and run tests on the main branch and on every pull request
-* automatic clang-format on C++ files run on every commit; don't worry about code formatting anymore!
-
-I am personally using this template all the time.
-
-Feel free to propose suggestions 😉
-
-## Usage
-
-This is a template repository which means you can right click "Use this template" on GitHub and create your own repo out of it.
-
-After cloning it locally, you can proceed with the usual CMake workflow.
-
-In the main repo directory execute
-
-```bash
-$ cmake -S . -B build
-$ cmake --build build
-```
-
-The first run will take the most time because the dependencies (CPM, JUCE, and googletest) need to be downloaded.
-
-Alternatively, you can use bundled CMake presets:
-
-```bash
-$ cmake --preset default # uses the Ninja build system
-$ cmake --build build
-$ ctest --preset default
-```
-
-Existing presets are `default`, `release`, and `Xcode`.
-
-To run clang-format on every commit, in the main directory execute
-
-```bash
-pre-commit install
-```
-
-(for this you may need to install `pre-commit` with `pip`: `pip install pre-commit`).
-
-Don't forget to change "YourPluginName" to, well, your plugin name everywhere 😉
-
-## How was this template built?
-
-See how I create this template step by step in this video:
-
-[![Audio plugin template tutorial video](http://img.youtube.com/vi/Uq7Hwt18s3s/0.jpg)](https://www.youtube.com/watch?v=Uq7Hwt18s3s "Audio plugin template tutorial video")
+See [LICENSE.md](LICENSE.md) for the plugin source license. It does not cover the HRIR dataset (see above).

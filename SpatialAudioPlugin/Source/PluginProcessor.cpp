@@ -27,21 +27,15 @@ SpatialAudioPluginAudioProcessor::~SpatialAudioPluginAudioProcessor()
 void SpatialAudioPluginAudioProcessor::initializeIRMap() {
   for (int i = 0; i < sizeof(elevationValues) / sizeof(elevationValues[0]); i++) {
     for (int j = 0; j <= 359; j++) {
-      const char* name;
-      int sz;
-      if (elevationValues[i] >= 0) {
-        juce::String nameStr = "azi_" + juce::String(j) + "_0_ele_" + juce::String(elevationValues[i]) + "_0_wav";
-        name = nameStr.toRawUTF8();
-        const char* getNamedResource =
-            (const char*)HRIR_48k_24bit::getNamedResource(name, sz);
-        irMap[j][elevationValues[i]] = {sz, getNamedResource};
-      } else {
-        juce::String nameStr = "azi_" + juce::String(j) + "_0_ele_neg" + juce::String(std::abs(elevationValues[i])) + "_0_wav";
-        name = nameStr.toRawUTF8();
-        const char* getNamedResource =
-            (const char*)HRIR_48k_24bit::getNamedResource(name, sz);
-        irMap[j][elevationValues[i]] = {sz, getNamedResource};
-      }
+      const juce::String nameStr = elevationValues[i] >= 0
+          ? "azi_" + juce::String(j) + "_0_ele_" + juce::String(elevationValues[i]) + "_0_wav"
+          : "azi_" + juce::String(j) + "_0_ele_neg" + juce::String(std::abs(elevationValues[i])) + "_0_wav";
+
+      // sz is left untouched by getNamedResource() when the name isn't found, so it must start at a known value
+      int sz = 0;
+      const char* ir = (const char*)HRIR_48k_24bit::getNamedResource(nameStr.toRawUTF8(), sz);
+      jassert(ir != nullptr && sz > 0); // Every azimuth/elevation combination used by loadIR() should exist in the dataset
+      irMap[j][elevationValues[i]] = {sz, ir};
     }
   }
 }
@@ -58,33 +52,50 @@ void SpatialAudioPluginAudioProcessor::loadIR(int azi, int ele, int numSamples) 
     }
   }
 
-  if ((azi != lastAzi || closestElevation != lastEle)){
-    convolutionDebounce.setCurrentAndTargetValue(0.0f);
-    convolutionDebounce.setTargetValue(1.0f);
-    lastAzi = azi;
-    lastEle = closestElevation;
+  // A new position was requested: remember it and (re)start the settle delay
+  if (azi != pendingAzi || closestElevation != pendingEle) {
+    pendingAzi = azi;
+    pendingEle = closestElevation;
+    loadDelaySamples = loadDelayLengthSamples;
+  }
+
+  // Already loaded, nothing to do
+  if (pendingAzi == lastAzi && pendingEle == lastEle)
     return;
-  } 
 
-  // Throttle parameter changes to avoid excessive IR loading
-   if (convolutionDebounce.skip(numSamples) == 0.1f) {
-    // When convolution toggle is false, use conv1 - else use conv2
-    auto& convToLoadInto = convolutionToggle ? conv1 : conv2;
+  // Still waiting for the position to settle before loading its IR
+  loadDelaySamples -= numSamples;
+  if (loadDelaySamples > 0)
+    return;
 
-    // Load as binary data
-    convToLoadInto.loadImpulseResponse(
-        irMap[azi][closestElevation].ir, irMap[azi][closestElevation].size,
-        juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,
-        0, juce::dsp::Convolution::Normalise::yes);
+  // Look up the pending position defensively; the map is only ever populated by initializeIRMap
+  const auto aziIt = irMap.find(pendingAzi);
+  if (aziIt == irMap.end())
+    return;
+  const auto eleIt = aziIt->second.find(pendingEle);
+  if (eleIt == aziIt->second.end())
+    return;
 
-    // After loading new IR, toggle to the other convolution for next time
-    convolutionToggle = !convolutionToggle;
+  const auto& entry = eleIt->second;
+  if (entry.ir == nullptr || entry.size <= 0)
+    return; // Missing/invalid: keep the currently loaded IR
 
-    // Set the target value for the smoother to either 0.0 or 1.0 depending on which convolution is active
-    convolutionMix.setTargetValue(convolutionToggle ? 1.0f : 0.0f);
+  // When convolution toggle is false, use conv1 - else use conv2
+  auto& convToLoadInto = convolutionToggle ? conv1 : conv2;
 
-    convolutionDebounce.setCurrentAndTargetValue(0.0f);
-   }
+  convToLoadInto.loadImpulseResponse(
+      entry.ir, entry.size,
+      juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,
+      0, juce::dsp::Convolution::Normalise::no);
+
+  // After loading new IR, toggle to the other convolution for next time
+  convolutionToggle = !convolutionToggle;
+
+  // Set the target value for the smoother to either 0.0 or 1.0 depending on which convolution is active
+  convolutionMix.setTargetValue(convolutionToggle ? 1.0f : 0.0f);
+
+  lastAzi = pendingAzi;
+  lastEle = pendingEle;
 }
 
 const juce::String SpatialAudioPluginAudioProcessor::getName() const
@@ -164,11 +175,13 @@ void SpatialAudioPluginAudioProcessor::prepareToPlay (double sampleRate, int sam
     // Set up convolution buffers:
     convBuffer1.setSize(spec.numChannels, spec.maximumBlockSize, false, true);
     convBuffer2.setSize(spec.numChannels, spec.maximumBlockSize, false, true);
+    monoSourceBuffer.setSize(spec.numChannels, spec.maximumBlockSize, false, true);
 
     convolutionMix.reset(sampleRate, 0.05);
-    convolutionDebounce.reset(sampleRate, 0.1);
 
-    convolutionDebounce.setCurrentAndTargetValue(0.0f);
+    // Wait for the position to settle for 100ms before loading a new IR
+    loadDelayLengthSamples = (int)std::round(sampleRate * 0.1);
+    loadDelaySamples = 0;
 
     // Set up convolution reverb:
     conv1.reset();
@@ -214,14 +227,27 @@ void SpatialAudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
 
     juce::dsp::AudioBlock<float> tempBlock1 {convBuffer1};
     juce::dsp::AudioBlock<float> tempBlock2 {convBuffer2};
+    juce::dsp::AudioBlock<float> monoSourceBlock {monoSourceBuffer};
 
     // Make sure the tempBlocks are the correct size
     tempBlock1 = tempBlock1.getSubBlock(0, (size_t)numSamples);
     tempBlock2 = tempBlock2.getSubBlock(0, (size_t)numSamples);
+    monoSourceBlock = monoSourceBlock.getSubBlock(0, (size_t)numSamples);
+
+    // Downmix to mono and duplicate to both channels: an HRIR pair is one source filtered per-ear, not a stereo matrix
+    const float* inputL = buffer.getReadPointer(0);
+    const float* inputR = buffer.getReadPointer(1);
+    float* monoL = monoSourceBuffer.getWritePointer(0);
+    float* monoR = monoSourceBuffer.getWritePointer(1);
+    for (int sample = 0; sample < numSamples; ++sample) {
+        const float monoSample = 0.5f * (inputL[sample] + inputR[sample]);
+        monoL[sample] = monoSample;
+        monoR[sample] = monoSample;
+    }
 
     //Pass the new AudioBlock to the conv.process call
-    conv1.process(juce::dsp::ProcessContextNonReplacing<float>(block, tempBlock1));
-    conv2.process(juce::dsp::ProcessContextNonReplacing<float>(block, tempBlock2));
+    conv1.process(juce::dsp::ProcessContextNonReplacing<float>(monoSourceBlock, tempBlock1));
+    conv2.process(juce::dsp::ProcessContextNonReplacing<float>(monoSourceBlock, tempBlock2));
 
     for (size_t s = 0; s < block.getNumSamples(); s++) {
 
@@ -244,11 +270,14 @@ void SpatialAudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
     auto& smoother = params.gainSmoother;
     smoother.setTargetValue(juce::Decibels::decibelsToGain(params.gainParam->get()));
 
-    for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
-        const auto gain = smoother.getNextValue();
+    const auto convolutionMakeupGain = juce::Decibels::decibelsToGain(convolutionMakeupGainDb);
 
-        channelDataL[sample] = channelDataL[sample] * gain;
-        channelDataR[sample] = channelDataR[sample] * gain;
+    for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+        const auto gain = smoother.getNextValue() * convolutionMakeupGain;
+
+        // Hard safety ceiling: the fixed makeup gain above can otherwise clip full-scale input
+        channelDataL[sample] = juce::jlimit(-1.0f, 1.0f, channelDataL[sample] * gain);
+        channelDataR[sample] = juce::jlimit(-1.0f, 1.0f, channelDataR[sample] * gain);
     }
 }
 

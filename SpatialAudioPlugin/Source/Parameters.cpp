@@ -17,14 +17,15 @@ static void castParameter(juce::AudioProcessorValueTreeState& apvts, const juce:
     jassert(destination);
 }
 
-static juce::String stringFromDecibels(float value, int) {
-    //Display 1 decimal place
-    return juce::String(value, 1) + "dB";
-}
-
 static juce::String stringFromDegrees(float value, int) 
 {
     return juce::String(int(value)) + " degrees";
+}
+
+static juce::String stringFromElevationDegrees(float value, int)
+{
+    // elevationParam is stored as 0-180 with 90 = level (0 degrees actual elevation)
+    return juce::String(int(value) - 90) + " degrees";
 }
 
 Parameters::Parameters(juce::AudioProcessorValueTreeState& apvts)
@@ -39,7 +40,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterL
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(gainParamID, "Output Gain", juce::NormalisableRange<float>{-12.0f, 12.0f}, 0.0f));
-    layout.add(std::make_unique<juce::AudioParameterInt>(elevationParamID, "Elevation", minElevation, maxElevation, 90, juce::AudioParameterIntAttributes().withStringFromValueFunction(stringFromDegrees)));
+    layout.add(std::make_unique<juce::AudioParameterInt>(elevationParamID, "Elevation", minElevation, maxElevation, 90, juce::AudioParameterIntAttributes().withStringFromValueFunction(stringFromElevationDegrees)));
     layout.add(std::make_unique<juce::AudioParameterInt>(azimuthParamID, "Azimuth", minAzimuth, maxAzimuth, 180 , juce::AudioParameterIntAttributes().withStringFromValueFunction(stringFromDegrees)));
     return layout;
 }

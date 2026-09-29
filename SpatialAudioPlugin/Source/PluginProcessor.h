@@ -71,15 +71,23 @@ private:
     juce::AudioBuffer<float> convBuffer1; 
     juce::dsp::Convolution conv2;
     juce::AudioBuffer<float> convBuffer2; 
+    juce::AudioBuffer<float> monoSourceBuffer; // Input downmixed to mono, duplicated to both channels, so the stereo HRIR renders one point source
     juce::dsp::ProcessSpec spec;
 
     bool convolutionToggle = false;  // Toggle to switch between conv1 and conv2
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> convolutionMix;
-    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> convolutionDebounce; //Set to 0, counts to 1 when parameter changes, only allow IR load when at 1
 
-    float convWeight = 1.0f;  // Weighting factor for the convolution output (0.0 signifying conv1 used, 1.0 signifying conv2 used)
-    float convTransitionSpeed = 0.1f; // Speed of transition between conv1 and conv2
-    float timeSinceLastIRLoad = 0.0f; // Time since last IR load, used to throttle IR loading
+    // Dataset HRIRs measure ~-90 dBFS peak; a single global gain (not per-IR normalisation) restores level
+    // without erasing the interaural level difference between positions
+    static constexpr float convolutionMakeupGainDb = 60.0f;
+
+    // Counts down from loadDelayLengthSamples to 0; a new position restarts the countdown
+    int loadDelaySamples = 0;
+    int loadDelayLengthSamples = 0;
+
+    // Latest requested position, which may still be waiting out the load delay
+    int pendingAzi = -500;
+    int pendingEle = -500;
 
     struct HRIR_48K_24bit_Entry {
       int size;
@@ -90,9 +98,6 @@ private:
     std::map<int, std::map<int, HRIR_48K_24bit_Entry>> irMap;
 
     int elevationValues[17] = {-81, -75, -60, -54, -45, -30, -25, -15, 0, 15,  25,  30,  45,  54,  60,  75,  90};
-    
-    //DelayLine is a class template, needs additional properties
-    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;
 
     // Initial values that are impossible, so the first run always triggers a load
     int lastAzi = -500;
