@@ -31,6 +31,3 @@ SimpleDelayPlugin/  Projucer stereo delay project
 SpatialAudioPlugin/ Projucer binaural spatializer and HRIR dataset
 ```
 
-## Project Status
-
-This is a development portfolio of learning projects, not a unified product release. Build configuration, interface polish, and testing vary by project. Before presenting a plugin as a finished portfolio piece, validate it in a DAW or plugin host and add current screenshots, a short audio demo, and project-specific build notes.
