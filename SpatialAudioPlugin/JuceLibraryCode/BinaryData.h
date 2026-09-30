@@ -8,6 +8,12 @@
 
 namespace HRIR_48k_24bit
 {
+    extern const char*   Skull_obj;
+    const int            Skull_objSize = 206640;
+
+    extern const char*   BaseheartLabs_svg;
+    const int            BaseheartLabs_svgSize = 22016;
+
     extern const char*   azi_0_0_ele_0_0_wav;
     const int            azi_0_0_ele_0_0_wavSize = 1580;
 
@@ -27612,7 +27618,7 @@ namespace HRIR_48k_24bit
     const int            azi_359_0_ele_neg81_0_wavSize = 1580;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 9201;
+    const int namedResourceListSize = 9203;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

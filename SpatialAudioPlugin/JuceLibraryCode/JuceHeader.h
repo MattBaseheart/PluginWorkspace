@@ -44,7 +44,7 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "SpatialAudioPlugin";
-    const char* const  companyName    = "";
+    const char* const  companyName    = "Baseheart Labs";
     const char* const  versionString  = "1.1.0";
     const int          versionNumber  = 0x10100;
 }

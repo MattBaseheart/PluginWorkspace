@@ -706,7 +706,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\RotaryKnob.cpp">
+    <ClCompile Include="..\..\Source\HeadMesh.cpp">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\HrtfConvolver.cpp">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LabeledSlider.cpp">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SpatialLookAndFeel.cpp">
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Parameters.cpp">
@@ -716,6 +725,9 @@
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginEditor.cpp">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SpatialVisualizer.cpp">
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
@@ -3759,7 +3771,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\RotaryKnob.h">
+    <ClInclude Include="..\..\Source\HeadMesh.h">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\HrtfConvolver.h">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LabeledSlider.h">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SpatialLookAndFeel.h">
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Parameters.h">
@@ -3769,6 +3790,9 @@
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginEditor.h">
+      <Filter>SpatialAudioPlugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SpatialVisualizer.h">
       <Filter>SpatialAudioPlugin\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -7949,6 +7973,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Assets\Skull.obj">
+      <Filter>SpatialAudioPlugin\Binary</Filter>
+    </None>
+    <None Include="..\..\Assets\BaseheartLabs.svg">
+      <Filter>SpatialAudioPlugin\Binary</Filter>
+    </None>
     <None Include="..\..\HRIR_48k_24bit\azi_0_0_ele_0_0.wav">
       <Filter>SpatialAudioPlugin\Binary</Filter>
     </None>

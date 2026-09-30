@@ -44,22 +44,22 @@
  #define JucePlugin_Name                   "SpatialAudioPlugin"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "SpatialAudioPlugin"
+ #define JucePlugin_Desc                   "Binaural spatial panner using measured HRIRs"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "yourcompany"
+ #define JucePlugin_Manufacturer           "Baseheart Labs"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "www.yourcompany.com"
+ #define JucePlugin_ManufacturerWebsite    "https://baseheartlabs.github.io/"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
  #define JucePlugin_ManufacturerEmail      ""
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x4d616e75
+ #define JucePlugin_ManufacturerCode       0x4c414253
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x55776531
+ #define JucePlugin_PluginCode             0x5350544c
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
@@ -92,7 +92,7 @@
  #define JucePlugin_VSTCategory            kPlugCategEffect
 #endif
 #ifndef  JucePlugin_Vst3Category
- #define JucePlugin_Vst3Category           "Fx"
+ #define JucePlugin_Vst3Category           "Fx|Spatial"
 #endif
 #ifndef  JucePlugin_AUMainType
  #define JucePlugin_AUMainType             'aufx'
@@ -110,10 +110,10 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.yourcompany.SpatialAudioPlugin
+ #define JucePlugin_CFBundleIdentifier     com.BaseheartLabs.SpatialAudioPlugin
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.SpatialAudioPlugin
+ #define JucePlugin_AAXIdentifier          com.BaseheartLabs.SpatialAudioPlugin
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "yourcompany: SpatialAudioPlugin"
+ #define JucePlugin_IAAName                "Baseheart Labs: SpatialAudioPlugin"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.yourcompany.SpatialAudioPlugin.factory"
+ #define JucePlugin_ARAFactoryID           "com.BaseheartLabs.SpatialAudioPlugin.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.yourcompany.SpatialAudioPlugin.aradocumentarchive.1.1.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.BaseheartLabs.SpatialAudioPlugin.aradocumentarchive.1.1.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

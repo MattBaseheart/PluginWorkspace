@@ -3,9 +3,15 @@
 <JUCERPROJECT id="uWe1op" name="SpatialAudioPlugin" projectType="audioplug"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
               version="1.1.0" pluginName="SpatialAudioPlugin" maxBinaryFileSize="20971520"
-              binaryDataNamespace="HRIR_48k_24bit">
+              binaryDataNamespace="HRIR_48k_24bit" companyName="Baseheart Labs"
+              pluginManufacturer="Baseheart Labs" pluginDesc="Binaural spatial panner using measured HRIRs"
+              pluginVST3Category="Fx,Spatial" companyWebsite="https://baseheartlabs.github.io/"
+              pluginManufacturerCode="LABS" pluginCode="SPTL">
   <MAINGROUP id="MTc3lD" name="SpatialAudioPlugin">
     <GROUP id="{76845696-ADBE-B53E-8AD0-36AE1C9C581F}" name="Binary">
+      <FILE id="xXkcgL" name="Skull.obj" compile="0" resource="1" file="Assets/Skull.obj"/>
+      <FILE id="Tld0io" name="BaseheartLabs.svg" compile="0" resource="1"
+            file="Assets/BaseheartLabs.svg"/>
       <FILE id="aRsJW1" name="azi_0_0_ele_0_0.wav" compile="0" resource="1"
             file="HRIR_48k_24bit/azi_0_0_ele_0_0.wav"/>
       <FILE id="d9VWyU" name="azi_0_0_ele_15_0.wav" compile="0" resource="1"
@@ -18410,8 +18416,18 @@
             file="HRIR_48k_24bit/azi_359_0_ele_neg81_0.wav"/>
     </GROUP>
     <GROUP id="{72780EA7-EF06-0CC4-634C-D438A7B5914E}" name="Source">
-      <FILE id="IvJ6Hh" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
-      <FILE id="THBavi" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
+      <FILE id="hdM001" name="HeadMesh.cpp" compile="1" resource="0" file="Source/HeadMesh.cpp"/>
+      <FILE id="hdM002" name="HeadMesh.h" compile="0" resource="0" file="Source/HeadMesh.h"/>
+      <FILE id="hrC001" name="HrtfConvolver.cpp" compile="1" resource="0"
+            file="Source/HrtfConvolver.cpp"/>
+      <FILE id="hrC002" name="HrtfConvolver.h" compile="0" resource="0" file="Source/HrtfConvolver.h"/>
+      <FILE id="IvJ6Hh" name="LabeledSlider.cpp" compile="1" resource="0"
+            file="Source/LabeledSlider.cpp"/>
+      <FILE id="THBavi" name="LabeledSlider.h" compile="0" resource="0" file="Source/LabeledSlider.h"/>
+      <FILE id="slF001" name="SpatialLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/SpatialLookAndFeel.cpp"/>
+      <FILE id="slF002" name="SpatialLookAndFeel.h" compile="0" resource="0"
+            file="Source/SpatialLookAndFeel.h"/>
       <FILE id="clVYfW" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
       <FILE id="NLxirE" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
       <FILE id="Fnyn3m" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -18421,6 +18437,10 @@
       <FILE id="PyF2qU" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="FMME4q" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="sV1zAa" name="SpatialVisualizer.cpp" compile="1" resource="0"
+            file="Source/SpatialVisualizer.cpp"/>
+      <FILE id="sV2zAb" name="SpatialVisualizer.h" compile="0" resource="0"
+            file="Source/SpatialVisualizer.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

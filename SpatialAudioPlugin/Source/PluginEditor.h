@@ -11,7 +11,9 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "Parameters.h"
-#include "RotaryKnob.h"
+#include "LabeledSlider.h"
+#include "SpatialLookAndFeel.h"
+#include "SpatialVisualizer.h"
 
 //==============================================================================
 /**
@@ -27,16 +29,21 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     SpatialAudioPluginAudioProcessor& audioProcessor;
-    juce::Value valueToControl;
 
-    juce::GroupComponent spatialGroup, motionGroup, gainGroup;
-    
-    RotaryKnob gainKnob{ "Gain", audioProcessor.apvts, gainParamID };
-    RotaryKnob azimuthKnob{ "Azimuth", audioProcessor.apvts, azimuthParamID };
-    RotaryKnob elevationKnob{ "Elevation", audioProcessor.apvts, elevationParamID };
+    // Declared first so it outlives the child components that reference it
+    SpatialLookAndFeel lookAndFeel;
+
+    SpatialVisualizer visualizer{ audioProcessor.apvts, azimuthParamID, elevationParamID, gainParamID };
+
+    LabeledSlider azimuthSlider{ "Azimuth", audioProcessor.apvts, azimuthParamID, juce::Slider::SliderStyle::LinearHorizontal };
+    LabeledSlider elevationSlider{ "Elevation", audioProcessor.apvts, elevationParamID, juce::Slider::SliderStyle::LinearVertical };
+    LabeledSlider gainSlider{ "Gain", audioProcessor.apvts, gainParamID, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag };
+
+    juce::TextButton topViewButton{ "Top" };
+    juce::TextButton frontViewButton{ "Front" };
+
+    std::unique_ptr<juce::Drawable> logo;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpatialAudioPluginAudioProcessorEditor)
 };
