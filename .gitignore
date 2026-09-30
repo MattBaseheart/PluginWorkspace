@@ -5,7 +5,22 @@
 
 #Additional files
 
-SimpleDelayPlugin/Builds/*
+# Projucer-generated - recreated by opening the .jucer and saving
+Builds/
+JuceLibraryCode/
+
+# CMake build output
+cmake-build-*/
+
+# IDE configuration
+.idea/
+.vscode/
+
+# AudioPluginHost session files - these embed machine-local plugin paths
+*.filtergraph
+
+# Binaries should not live in a source repo
+*.exe
 
 # User-specific files
 *.rsuser

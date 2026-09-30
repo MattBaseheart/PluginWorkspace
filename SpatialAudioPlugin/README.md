@@ -175,10 +175,10 @@ have caused an out-of-bounds read.
 Built with the Projucer, not CMake.
 
 1. Open [SpatialAudioPlugin.jucer](SpatialAudioPlugin.jucer) in the
-   [Projucer](https://juce.com/discover/projucer) and save it to generate the exporter for your
-   platform- or open the checked-in solution at
-   [Builds/VisualStudio2022/SpatialAudioPlugin.sln](Builds/VisualStudio2022/SpatialAudioPlugin.sln).
-2. Build the **Standalone** or **VST3** target.
+   [Projucer](https://juce.com/discover/projucer) and save it. That regenerates `JuceLibraryCode/`
+   and an exporter for your platform under `Builds/`. Neither directory is checked in - both are
+   generated, and both bake in machine-specific JUCE module paths.
+2. Open the generated project and build the **Standalone** or **VST3** target.
 
 Requires a local JUCE install. If the module paths in the `.jucer` don't match yours, re-save from the
 Projucer to regenerate them.
@@ -205,6 +205,9 @@ HRIR_48k_24bit/          impulse response dataset (embedded as binary data)
 - The HRIR table is allocated **per plugin instance** (~12.5 MB each). Sharing one immutable copy
   across instances would be better practice, and may be pursued in future iterations.
 - The makeup gain is a hand-tuned constant rather than derived from the dataset.
+- The embedded dataset carries finer azimuth steps and extra elevation rings that the current
+  nearest-neighbour lookup never reads. They are kept on purpose so a future version can index more
+  finely without re-importing the dataset.
 - HRIRs are non-individualised, so localisation accuracy varies between listeners.
 - No automated tests yet, could be pursued in a future iteration.
 

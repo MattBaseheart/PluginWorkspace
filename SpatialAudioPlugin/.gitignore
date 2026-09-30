@@ -132,6 +132,7 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
+!Assets/*.obj
 *.iobj
 *.pch
 *.pdb

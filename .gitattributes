@@ -1,0 +1,7 @@
+* text=auto
+
+# Asset formats git must not rewrite line endings in
+*.obj -text
+*.wav binary
+*.png binary
+*.svg -text
